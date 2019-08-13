@@ -7,6 +7,6 @@ namespace SportsStore.Models
 {
     public interface IProductRepository
     {
-        IQueryable<Product> Product { get; }
+        IQueryable<Product> Products { get; }
     }
 }
