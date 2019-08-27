@@ -35,6 +35,12 @@ namespace SportsStore.Models
             Session.SetJson( "Cart", this );
         }
 
+        public override void RemoveOneItem( Product product )
+        {
+            base.RemoveOneItem( product );
+            Session.SetJson( "Cart", this );
+        }
+
         public override void Clear()
         {
             base.Clear();

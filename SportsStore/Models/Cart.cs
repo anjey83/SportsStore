@@ -30,6 +30,22 @@ namespace SportsStore.Models
         public virtual void RemoveLine( Product product ) =>
             lineCollection.RemoveAll( l => l.Product.ProductID == product.ProductID );
 
+        public virtual void RemoveOneItem( Product product )
+        {
+            var cartLine = lineCollection.FirstOrDefault( l => l.Product.ProductID == product.ProductID );
+            if ( cartLine != null )
+            {
+                if ( cartLine.Quantity > 1 )
+                {
+                    cartLine.Quantity--;
+                }
+                else
+                {
+                    RemoveLine( product );
+                }
+            }
+        }
+
         public virtual decimal ComputeTotalValue() =>
             lineCollection.Sum( e => e.Product.Price * e.Quantity );
 
