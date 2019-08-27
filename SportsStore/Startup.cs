@@ -26,6 +26,7 @@ namespace SportsStore
             //specifies that the same object should be used to satisfy related requests for Cart instances
             services.AddScoped<Cart>( sp => SessionCart.GetCart( sp ) );
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IOrderRepository, EFOrderRepository>();
             services.AddMvc();
             //sets up the in-memory data store
             services.AddMemoryCache();
