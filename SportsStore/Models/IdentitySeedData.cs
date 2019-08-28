@@ -18,7 +18,7 @@ namespace SportsStore.Models
             UserManager<IdentityUser> userManager = app.ApplicationServices.GetRequiredService<UserManager<IdentityUser>>();
 
             IdentityUser user = await userManager.FindByIdAsync( adminUsr );
-            if ( user != null )
+            if ( user == null )
             {
                 user = new IdentityUser( "Admin" );
                 await userManager.CreateAsync( user, adminPwd );
