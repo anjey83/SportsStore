@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using SportsStore.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace SportsStore
 {
@@ -22,6 +23,8 @@ namespace SportsStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["Data:SportStoreProducts:ConnectionString"]));
+            services.AddDbContext<AppIdentityDbContext>( options => options.UseSqlServer( Configuration["Data:SportStoreIdentity:ConnectionString"] ) );
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
             services.AddTransient<IProductRepository, EFProductRepository>();
             //specifies that the same object should be used to satisfy related requests for Cart instances
             services.AddScoped<Cart>( sp => SessionCart.GetCart( sp ) );
@@ -42,6 +45,7 @@ namespace SportsStore
             app.UseStaticFiles();
             //automatically associate requests with sessions when they arrive from the client.
             app.UseSession();
+            app.UseAuthentication();
             app.UseMvc(routes => 
             {
                 routes.MapRoute(
